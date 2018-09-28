@@ -4,7 +4,8 @@
         <title>Frente de Caixa</title>
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" >
-
+        <link href="css/typeaheadjs.css" rel="stylesheet" type="text/css"/>
+        
         <script src="js/jquery-3.3.1.js" type="text/javascript"></script>
         <script src="js/bootstrap.js" type="text/javascript"></script>
         <script src="js/pdv.js" type="text/javascript"></script>
@@ -25,10 +26,17 @@
                 font-family: monospace;
                 text-align: left;
             }
+            
+            .btn-acoes
+            {
+                margin-top: 50px;
+            }
+         
+       
         </style>
 
     </head>
-    <body bgcolor="#000000">
+    <body>
         <div class="container">
             <div class="row" style="margin-top: 30px;">
 
@@ -68,14 +76,15 @@
 
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Nome do produto" id="input-produto" >
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" id="btn-produto"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                        </div>
-                    </div>
 
-                    <button type="button" class="btn btn-info">Estorno</button>
-                    <button type="button" class="btn btn-success">Pagar</button>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-cancelar">Cancelar</button>
+                        
+                    </div>
+                        <div class="btn-acoes">
+                        <button type="button" class="btn btn-info">Estorno</button>
+                        <button type="button" class="btn btn-success">Pagar</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-cancelar">Cancelar</button>
+                        </div>
+                
                 </div>
 
             </div>
@@ -119,7 +128,7 @@
                        Você deseja realmente cancelar a venda?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger">Sim</button>
+                        <button type="button" class="btn btn-danger" id="btn-cancelar-sim">Sim</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
                         
                     </div>

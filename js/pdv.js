@@ -25,14 +25,20 @@ $(document).ready(function(){
    }
      //autocomplete
      $("#input-produto").typeahead({
-        minLength: 3,
+        minLength: 1,
         highlight: true
       },
       {
-        name: 'my-dataset',
+        name: 'produtos',
         source: pesquisaProduto,
         display: "nome"
       });
+      
+      //evento de quando seleciona produto
+      $("#input-produto").bind("typeahead:select", function(ev, valor){
+          addProduto(valor);
+          
+      });//fim do select.
      
      // add codigo de barras
      $("#btn-codbarras").click(function(){
@@ -49,16 +55,25 @@ $(document).ready(function(){
              {                
                  $('#modal-codbarras').modal('show');
              } else {
-                 var html = '<li>'+ res.nome + ' ------ R$ '+ formataReais(res.preco) +'</li>';
-                 $("#card-produtos ol").append(html);
-                 valorTotal += res.preco;
-                 
-                 $("#input-codbarras").val('');
-                 $("#card-totalpagar .valor").html("R$ "+formataReais(valorTotal));
+                 addProduto(res);
              }
              
 
      }); //fim do Click
+     
+     function addProduto(produto)
+     {
+        var html = '<li>'+ produto.nome + ' ------ R$ '+ formataReais(produto.preco) +'</li>';
+        $("#card-produtos ol").append(html);
+        valorTotal += produto.preco;
+        
+        $("#input-codbarras").val('');         
+        $("#input-produto").typeahead('val','');
+        $("#card-totalpagar .valor").html("R$ "+formataReais(valorTotal));
+     }
+     $("#btn-cancelar-sim").click(function(){
+         window.location.reload();
+     });//fim do click
      
 }); //fim document ready
 
