@@ -4,7 +4,7 @@ $(document).ready(function(){
      var valorTotal = 0;
      var produtosCadastrados = [];
      
-     $.getJSON('model/produtos.json', function(valores){
+     $.getJSON('model/produtos.php', function(valores){
          produtosCadastrados = valores;
      });
      
@@ -63,9 +63,11 @@ $(document).ready(function(){
      
      function addProduto(produto)
      {
-        var html = '<li>'+ produto.nome + ' ------ R$ '+ formataReais(produto.preco) +'</li>';
+
+        var preco = parseFloat(produto.preco); 
+        var html = '<li>'+ produto.nome + ' ------ R$ '+ formataReais(preco) +'</li>';
         $("#card-produtos ol").append(html);
-        valorTotal += produto.preco;
+        valorTotal += preco;
         
         $("#input-codbarras").val('');         
         $("#input-produto").typeahead('val','');
@@ -75,11 +77,37 @@ $(document).ready(function(){
          window.location.reload();
      });//fim do click
      
+     
+     $("#input-codbarras").keydown(function(ev){
+         if(ev.keyCode == 13) //13 é o codigo do enter.
+         {
+             $("#btn-codbarras").click();
+         }
+     });// fim do keydown
+     
+        $('body').keydown(function(ev){
+            
+        
+         
+         if(ev.keyCode == 116)
+         {
+              ev.preventDefault();
+           $("#input-codbarras").focus(); //entra no componente  
+         }
+         
+         if(ev.keyCode == 117)
+         {
+              ev.preventDefault();
+            $("#input-produto").focus(); 
+         }    
+             
+     });// fim keydown do input
+     
 }); //fim document ready
 
 function formataReais (valor)
 {
-  var formataReais = "R$ " + valor.toFixed(2).replace(".",",");
+  var formataReais = valor.toFixed(2).replace(".",",");
   return formataReais;     
 }
 
