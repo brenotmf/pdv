@@ -3,6 +3,7 @@ $(document).ready(function(){
      
      var valorTotal = 0;
      var produtosCadastrados = [];
+     var produtosCupom = [];
      
      $.getJSON('model/produtos.php', function(valores){
          produtosCadastrados = valores;
@@ -63,7 +64,8 @@ $(document).ready(function(){
      
      function addProduto(produto)
      {
-
+         produtosCupom.push(produto);
+         
         var preco = parseFloat(produto.preco); 
         var html = '<li>'+ produto.nome + ' ------ R$ '+ formataReais(preco) +'</li>';
         $("#card-produtos ol").append(html);
@@ -72,7 +74,8 @@ $(document).ready(function(){
         $("#input-codbarras").val('');         
         $("#input-produto").typeahead('val','');
         $("#card-totalpagar .valor").html("R$ "+formataReais(valorTotal));
-     }
+     } // fim adicionar produto
+     
      $("#btn-cancelar-sim").click(function(){
          window.location.reload();
      });//fim do click
@@ -103,15 +106,32 @@ $(document).ready(function(){
              
      });// fim keydown do input
      
+     //realiza o pagamento
+     $("#btn-pagar-sim").click(function(){
+       
+         var dados = {
+           cupom: produtosCupom,
+           total: valorTotal
+         };
+         
+         $.post("model/pagamento.php", dados, function(retorno){
+             
+             if (retorno == "true"){
+                 alert("Pagamento Concluido");
+                  window.location.reload();
+                      
+                 
+             }else{
+                 alert ("Ocorreu um problema ao pagar");
+             }
+             
+         });// fim do post
+         
+     });
 }); //fim document ready
 
 function formataReais (valor)
 {
   var formataReais = valor.toFixed(2).replace(".",",");
   return formataReais;     
-}
-
-function pesquisaProduto(pesquisa)
-{
-    return produtosCadastrados
 }
